@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 import re
-from translate import translate_name
+from translate import translate_name_with_google as translate_name
 
 # Load and parse the XML file
 tree = ET.parse('data.xml')  # Make sure 'data.xml' is in the same folder
@@ -41,7 +41,7 @@ for product in products_node.findall("product"):
 
     product_data = {
         "Code": product.findtext("code", default=""),
-        "ItemDescrUK": product.findtext("ItemDescrUK", default=""),
+        "ItemDescrUK": translate_name(product.findtext("ItemDescrUK", default="")),
         "WholeSalePriceGR": product.findtext("WholeSalePriceGR", default="0").replace(",", "."),
         "RetailEShopPrice": product.findtext("PrRetailEShopPrice", default="0"),
         "HasRecycleTax": product.findtext("HasRecycleTax", default="0"),
